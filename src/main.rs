@@ -31,21 +31,21 @@ fn check_repo() -> bool {
 fn try_rebase(remote: &str, branch: &str) -> bool {
     let output =  Command::new("git")
             .args(&["rev-list", "--max-count=1",
-                 &format!("{}/{}", remote, branch)[..]])
+                 &format!("{}/{}",remote, branch)[..]])
             .output().unwrap();
 
     if !output.status.success() {
         let msg = String::from_utf8(output.stderr).unwrap();
-        println!("stdout:{}",msg);
-        return false;
+        println!("stderr:{}",msg);
+        //return false;
     }
 
     let rev = String::from_utf8(output.stdout).unwrap();
-    println!("rev:{}", rev);
+    let rev = rev.trim();
 
     Command::new("git")
             .args(&["update-ref", 
-                &format!("refs/heads/{}",branch)[..], &rev[..]])
+                &format!("refs/heads/{}",branch)[..], rev])
             .status()
             .unwrap()
             .success()
