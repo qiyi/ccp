@@ -1,1 +1,10 @@
 target
+
+# Compiled files
+*.o
+*.so
+*.rlib
+*.dll
+
+# Executables
+*.exe
